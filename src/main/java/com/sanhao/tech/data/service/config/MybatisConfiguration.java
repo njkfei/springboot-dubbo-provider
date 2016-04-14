@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
@@ -38,22 +39,22 @@ public class MybatisConfiguration {
 	private String password;
 	
 	@Value("${jdbc.maxActive:20}")
-	private int maxActive;
+	private String maxActive;
 	
 	@Value("${jdbc.initialSize:1}")
-	private int initialSize;
+	private String initialSize;
 	
 	@Value("${jdbc.minIdle:3}")
-	private int minIdle;
+	private String minIdle;
 	
 	@Value("${jdbc.removeAbandoned:true}")
-	private boolean removeAbandoned;
+	private String removeAbandoned;
 	 
 	@Value("${jdbc.removeAbandonedTimeout:180}")
 	private String removeAbandonedTimeout;
 	
 	@Value("${jdbc.maxWait:60000}")
-	private int maxWait;
+	private String maxWait;
 
 	
 	public static final String MAPPERS_PACKAGE_NAME = "com.sanhao.tech.sevice.model";
@@ -69,10 +70,6 @@ public class MybatisConfiguration {
 /*	@Bean
     public DataSource dataSourcePool() {
 		BasicDataSource dataSource = new BasicDataSource();
-		logger.info(driverClassName);
-		logger.info(url);
-		logger.info(username);
-		logger.info(password);
 
 		dataSource.setDriverClassName(driverClassName);
 		dataSource.setUrl(url);
@@ -104,18 +101,20 @@ public class MybatisConfiguration {
 		dataSource.setUsername(username);
 		dataSource.setPassword(password);
 		
+		dataSource.setConnectionProperties(connectionProperties());
+		
 		return dataSource;
 	}
 	
 	@Bean
 	public Properties connectionProperties() {
 		Properties connectionProperties = new Properties();
-/*		connectionProperties.setProperty("maxActive", maxActive);
+		connectionProperties.setProperty("maxActive", maxActive);
 		connectionProperties.setProperty("initialSize", initialSize);
-		connectionmProperties.setProperty("minIdle", minIdle);
+		connectionProperties.setProperty("minIdle", minIdle);
 		connectionProperties.setProperty("removeAbandonedTimeout", removeAbandonedTimeout);
 		connectionProperties.setProperty("removeAbandoned", removeAbandoned);
-		connectionProperties.setProperty("maxWait", maxWait);*/
+		connectionProperties.setProperty("maxWait", maxWait);
 		
 		return connectionProperties;
 	}

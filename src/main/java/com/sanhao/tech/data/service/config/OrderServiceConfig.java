@@ -46,7 +46,7 @@ public class OrderServiceConfig {
 	service.setApplication(dubboBaseConfig.application());
 	service.setRegistry(dubboBaseConfig.registry()); // 多个注册中心可以用setRegistries(),service.setRegistries(registries());
 	service.setProtocol(dubboBaseConfig.protocol()); // 多个协议可以用setProtocols()
-	
+	service.setMonitor(dubboBaseConfig.monitor());   // 设置监控
 	service.setInterface(OrderService.class);
 	service.setVersion("1.0.0");
 	service.setRef(orderService());
