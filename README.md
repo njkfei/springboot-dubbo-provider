@@ -84,6 +84,24 @@ bedded database please put a supported one on the classpath. If you have databas
 @EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 ```
 
+## 加入监控配置
+如果没有加入监控配置，则在监控中心，无法看到性能曲线图示信息。
+```
+	// 配置监控使能，　否则无法显示统计信息
+	@Bean
+	public MonitorConfig monitor(){
+		MonitorConfig monitor = new MonitorConfig();
+		monitor.setProtocol("registry");
+		
+		return monitor;
+	}
+```
+
+暴露的服务，需要设置监控中心
+```
+     service.serMonitor(dubboBaseConfig.monitor()); // 设置监控。
+```
+
 ## 编译
 ```
 mvn clean install
