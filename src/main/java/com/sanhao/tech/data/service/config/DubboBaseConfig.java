@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.alibaba.dubbo.config.ApplicationConfig;
+import com.alibaba.dubbo.config.MonitorConfig;
 import com.alibaba.dubbo.config.ProtocolConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
 import com.alibaba.dubbo.config.ServiceConfig;
@@ -32,21 +33,23 @@ public class DubboBaseConfig {
 	}
 
 	// 连接注册中心
-	@Bean
+	@Bean(name="registry")
 	public RegistryConfig registry() {
 		RegistryConfig registry = new RegistryConfig();
-		registry.setProtocol("zookeeper");                       // 也可以是其它注册中心
+	//	registry.setProtocol("zookeeper");                       // 也可以是其它注册中心
 		registry.setAddress("zookeeper://127.0.0.1:2181");
 /*		registry.setUsername("aaa");
 		registry.setPassword("bbb");*/
+		
 
 		// 不向注册中心注册
 /*		问题：
 		为方便开发测试，经常会在线下共用一个所有服务可用的注册中心，这时，如果一个正在开发中的服务提供者注册，可能会影响消费者不能正常运行。
 		解决方案：
 		可以让服务提供者开发方，只订阅服务(开发的服务可能依赖其它服务)，而不注册正在开发的服务，通过直连测试正在开发的服务。*/
-		registry.setRegister(false);
+		registry.setRegister(true);
 		
+	//	registry.setRegister(true);
 		return registry;
 	}
 	
@@ -65,8 +68,18 @@ public class DubboBaseConfig {
 	ProtocolConfig protocol = new ProtocolConfig();
 	protocol.setName("dubbo");
 	protocol.setPort(20880);
+	//protocol.setPort(20881);
 	protocol.setThreads(200);
 	
 	return protocol;
+	}
+	
+	// 配置监控使能，　否则无法显示统计信息
+	@Bean
+	public MonitorConfig monitor(){
+		MonitorConfig monitor = new MonitorConfig();
+		monitor.setProtocol("registry");
+		
+		return monitor;
 	}
 }
