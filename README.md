@@ -1,4 +1,4 @@
-# springboot-dubbo-provider
+﻿# springboot-dubbo-provider
 spring boot 与dubbo进行集成．
 搞通之后，觉得很简单，在搞通之前，有不少坑．主要还是依赖问题和配置问题．
 
@@ -100,6 +100,12 @@ bedded database please put a supported one on the classpath. If you have databas
 暴露的服务，需要设置监控中心
 ```
      service.serMonitor(dubboBaseConfig.monitor()); // 设置监控。
+```
+
+## 序列化
+  公共接口必须实现序列化接口.否则会报错误.
+```
+mush implements java.io.Serialble;
 ```
 
 ## 编译
