@@ -108,6 +108,33 @@ bedded database please put a supported one on the classpath. If you have databas
 mush implements java.io.Serialble;
 ```
 
+## 小技巧
+开启自动驼峰命名规则（camel case）映射，即从经典数据库列名 A_COLUMN 到经典 Java 属性名 aColumn 的类似映射。
+```
+	@Bean
+	public Properties settingss() {
+		Properties settingss = new Properties();
+		settingss.setProperty("mapUnderscoreToCamelCase","true"); // 设置为将数据库的下划线字段转换为类的驼峰表示
+
+		return settingss;
+	}
+
+		@Bean
+    	public DataSourceTransactionManager transactionManager() {
+    		return new DataSourceTransactionManager(dataSource());
+    	}
+
+    	@Bean
+    	public SqlSessionFactory sqlSessionFactory() throws Exception {
+    		SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+    		sessionFactory.setDataSource(dataSource());
+    	//	sessionFactory.setDataSource(dataSourcePool());
+    		sessionFactory.setTypeAliasesPackage(MAPPERS_PACKAGE_NAME);
+    		sessionFactory.setConfigurationProperties(settingss()); // 设置支持下划线转驼峰
+    		return sessionFactory.getObject();
+    	}
+```
+
 ## 有用的东西
 通过_util_包下的_ServiceHelper_，可以省去很多配置复制代码．感谢_Alibaba Dubbo交流群2 472841355_群@凌封．
 代码如下：

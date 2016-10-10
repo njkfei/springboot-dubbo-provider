@@ -120,6 +120,14 @@ public class MybatisConfiguration {
 	}
 
 	@Bean
+	public Properties settingss() {
+		Properties settingss = new Properties();
+		settingss.setProperty("mapUnderscoreToCamelCase","true"); // 设置为将数据库的下划线字段转换为类的驼峰表示
+
+		return settingss;
+	}
+
+	@Bean
 	public DataSourceTransactionManager transactionManager() {
 		return new DataSourceTransactionManager(dataSource());
 	}
@@ -130,6 +138,7 @@ public class MybatisConfiguration {
 		sessionFactory.setDataSource(dataSource());
 	//	sessionFactory.setDataSource(dataSourcePool());
 		sessionFactory.setTypeAliasesPackage(MAPPERS_PACKAGE_NAME);
+		sessionFactory.setConfigurationProperties(settingss()); // 设置支持下划线转驼峰
 		return sessionFactory.getObject();
 	}
 }
